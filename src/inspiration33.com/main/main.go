@@ -1,25 +1,25 @@
 package main
 
-import (
-	"github.com/tuckersGo/musthaveGo/ch20/fedex"
-	"github.com/tuckersGo/musthaveGo/ch20/koreaPost"
-)
+import "fmt"
 
-type Sender interface {
-	Send(parcel string)
+type Stringer interface {
+	String() string
 }
 
-func SendBook(name string, sender Sender) {
-	sender.Send(name)
+type Student struct {
+	Age int
+}
+
+func (s *Student) String() string {
+	return fmt.Sprintf("Student Age:%d", s.Age)
+}
+
+func PrintAge(stringer Stringer) {
+	s := stringer.(*Student)
+	fmt.Printf("Age: %d\n", s.Age)
 }
 
 func main() {
-	koreaPostSender := &koreaPost.PostSender{}
-
-	SendBook("어린 왕자", koreaPostSender)
-	SendBook("그리스인 조르바", koreaPostSender)
-
-	fedexSender := &fedex.FedexSender{}
-	SendBook("어린 왕자", fedexSender)
-	SendBook("그리스인 조르바", fedexSender)
+	s := &Student{15}
+	PrintAge(s)
 }
